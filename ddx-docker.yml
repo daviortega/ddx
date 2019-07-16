@@ -1,0 +1,43 @@
+version: '3.2'
+
+services:
+  flomainnet:
+    image: mediciland/flod:0.15.2
+    ports:
+      - 7313:7313
+    volumes:
+      - flod:/data
+    env_file:
+      - flod.env
+    networks:
+      - floNet
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+
+  ipfs:
+    image: ipfs/go-ipfs:master
+    environment:
+      - IPFS_PROFILE=server
+    ports:
+      - 4001:4001
+      - 127.0.0.1:8080:8080
+      - 127.0.0.1:5001:5001
+    volumes:
+      - ./ipfsStaging:/export
+      - ipfsData:/data/ipfs
+    networks:
+      - ipfsNet
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+
+networks:
+  floNet:
+  ipfsNet:
+
+volumes:
+  flod:
+  ipfsData:
