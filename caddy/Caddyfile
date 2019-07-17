@@ -14,7 +14,7 @@
 }
 
 
-:80/mainnet/kibana {
+:80/kibana {
   basicauth / kibana mainnet
   import std
   gzip
@@ -24,30 +24,10 @@
 }
 
 
-:80/mainnet/oip {
+:80/oip {
   import std
   gzip
   proxy / oipmainnet:1606/oip {
-	transparent
-  }
-  cors
-}
-
-
-:80/testnet/kibana {
-  import std
-  gzip
-  proxy / kibanatestnet:5601 {
-	transparent
-  }
-}
-
-
-:80/testnet/oip {
-  basicauth / kibana testnet
-  import std
-  gzip
-  proxy / oiptestnet:11606/oip {
 	transparent
   }
   cors
@@ -58,6 +38,15 @@
   import std
   gzip
   proxy / ipfs:8080/ipfs {
+	transparent
+  }
+  cors
+}
+
+:80/ipfsui {
+  import std
+  gzip
+  proxy / ipfs:5001/webui {
 	transparent
   }
   cors
